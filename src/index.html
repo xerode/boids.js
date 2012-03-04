@@ -17,6 +17,7 @@
 			var canvas;
 			var boidSystem;
 			var numBoids = 50;
+			var animating = false;
 			
 			$( document ).ready( function() {
 				
@@ -38,14 +39,16 @@
 					
 					initBoids();
 					
-					$( "#clickTick" ).click( function( e ) {
-						
-						tick();
-						
+					$( "input#start" ).click( function( e ) {
+						startAnimation();
 						return false;
-						
 					} );
-					
+
+					$( "input#stop" ).click( function( e ) {
+						stopAnimation();
+						return false;
+					} );
+
 					$( "div#panel form input" ).change( function() {
 
 						console.log( "Change!" );
@@ -150,11 +153,30 @@
 					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", 10 );
 					
 				}
-				
-				requestAnimFrame( tick );
 
 			}
 			
+			function animationTick() {
+
+				if( animating ) {
+
+					tick();
+
+					requestAnimFrame( animationTick );
+
+				}
+
+			}
+
+			function startAnimation() {
+				animating = true;
+				animationTick();
+			}
+
+			function stopAnimation() {
+				animating = false;
+			}
+
 		</script>
 	</head>
 	<body>
@@ -194,13 +216,12 @@
 						<input id="redrawAlpha" name="redrawAlpha" type="range" min="0" max="1" value="0.25" step="0.05" />
 					</fieldset>
 					<fieldset>
-						<input type="button" value="Start" />
-						<input type="button" value="Stop" />
-						<input type="button" value="Reset" />
+						<input id="start" type="button" value="Start" />
+						<input id="stop" type="button" value="Stop" />
+						<input id="reset" type="button" value="Reset" />
 					</fieldset>
 				</form>
 			</div>
-			<div id="clickTick">Tick!</div>
 			<div id="noCanvas">
 				<h1>Uh oh!</h1>
 				<p>Canvas doesn't seem to be initialising :(</p>
