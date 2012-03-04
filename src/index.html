@@ -18,6 +18,9 @@
 			var boidSystem;
 			var numBoids = 50;
 			var animating = false;
+
+			var boidSize = 5;
+			var redrawAlpha = 0.25;
 			
 			$( document ).ready( function() {
 				
@@ -52,6 +55,9 @@
 					$( "div#panel form input" ).change( function() {
 
 						console.log( "Change!" );
+
+						boidSize = $( 'input#boidSize' ).attr( 'value' );
+						redrawAlpha = $( 'input#redrawAlpha' ).attr( 'value' );
 
 					} );
 
@@ -116,7 +122,7 @@
 					
 					console.log( "Boid #" + i + " added at " + boid.position.x + ", " + boid.position.y + " with velocity " + boid.velocity.x + ", " + boid.velocity.y );
 					
-					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", 10 );
+					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", boidSize );
 					
 				}
 				
@@ -141,7 +147,7 @@
 				
 				// console.log( "tick!" );
 				
-				c2d.fillStyle = "rgba( 255, 255, 255, 0.25 )";
+				c2d.fillStyle = "rgba( 255, 255, 255, " + redrawAlpha + " )";
  				c2d.fillRect( 0, 0, canvas.width, canvas.height );
 				
 				boidSystem.update();
@@ -150,7 +156,7 @@
 					
 					var boid = boidSystem.getBoid( i );
 					
-					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", 10 );
+					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", boidSize );
 					
 				}
 
@@ -211,14 +217,14 @@
 					<fieldset>
 						<legend>Display</legend>
 						<label for="boidSize">Boid size</label>
-						<input id="boidSize" name="boidSize" type="range" min="0" max="10" value="1" step="1" />
+						<input id="boidSize" name="boidSize" type="range" min="0" max="20" value="5" step="1" />
 						<label for="redrawAlpha">Redraw alpha</label>
 						<input id="redrawAlpha" name="redrawAlpha" type="range" min="0" max="1" value="0.25" step="0.05" />
 					</fieldset>
 					<fieldset>
 						<input id="start" type="button" value="Start" />
 						<input id="stop" type="button" value="Stop" />
-						<input id="reset" type="button" value="Reset" />
+						<input id="reset" type="reset" value="Reset" />
 					</fieldset>
 				</form>
 			</div>
