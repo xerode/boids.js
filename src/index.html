@@ -3,6 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Boids</title>
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssbase/cssbase-min.css">
 		<link rel="stylesheet" type="text/css" href="css/css3.css" />
 		<script src="js/jquery-1.7.1.min.js"></script>
 		<script src="js/jrc.js"></script>
@@ -19,8 +21,11 @@
 			var numBoids = 50;
 			var animating = false;
 
-			var boidSize = 5;
+			var boidSize = 2;
 			var redrawAlpha = 0.5;
+
+			var updateProps = null;
+			var updateSystem = false;
 			
 			$( document ).ready( function() {
 				
@@ -149,9 +154,19 @@
 				
 				c2d.fillStyle = "rgba( 255, 255, 255, " + redrawAlpha + " )";
  				c2d.fillRect( 0, 0, canvas.width, canvas.height );
+
+ 				if( updateSystem ) {
+
+ 					this.boidSystem.setUpdate( updateProps );
+
+ 					updateProps = null;
+
+ 					updateSystem = false;
+
+ 				}
 				
 				boidSystem.update();
-				
+
 				var i = boidSystem.boids.length;
 
 				while( i-- ) {
@@ -219,7 +234,7 @@
 					<fieldset>
 						<legend>Display</legend>
 						<label for="boidSize">Boid size</label>
-						<input id="boidSize" name="boidSize" type="range" min="0" max="20" value="5" step="1" list="boidSizeList" />
+						<input id="boidSize" name="boidSize" type="range" min="0" max="20" value="2" step="1" list="boidSizeList" />
 						<datalist id="boidSizeList">
 							<option value="0">
 							<option value="5">

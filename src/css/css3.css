@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 /* YUI Reset CSS */
-
+/*
 body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
 	margin:0;
 	padding:0;
@@ -32,19 +32,41 @@ q:before,q:after {
 }
 abbr,acronym { border:0;
 }
-
+*/
 /* Actual CSS */
 
 body {
 	background-color: #cccccc;
+	font-size: 63%;
+	font-family: Verdana, Arial, sans-serif;
+}
+
+div#container {
+	position: fixed;
+	left: 50%;
+	margin: 0 0 0 -200px;
+}
+
+form fieldset {
+	width: 400px;
+}
+
+form legend, form input[type="button"], form input[type="reset"] {
+	font-weight: bold;
+	font-size: 1.6em;
 }
 
 form label {
+	display: block;
+	font-size: 1.2em;
+	width: 200px;
 	clear: left;
+	float: left;
 }
 
 form input[type="range"] {
 	clear: right;
 	width: 200px;
 	height: 10px;
+	float: left;
 }
