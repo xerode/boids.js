@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Boids</title>
+		<link rel="stylesheet" type="text/css" href="css/css3.css" />
+		<script src="js/jquery-1.7.1.min.js"></script>
+		<script src="js/jrc.js"></script>
+		<script src="js/utils/Vector2D.js"></script>
+		<script src="js/boids/Boid2DModel.js"></script>
+		<script src="js/boids/BoidSystemModel.js"></script>
+		<script src="js/geom/Rectangle.js"></script>
+		<script>
+			
+			var c2d;
+			var canvas;
+			var boidSystem;
+			var numBoids = 50;
+			
+			$( document ).ready( function() {
+				
+				$( "div#noCanvas" ).css( "display", "none" );
+				
+				initCanvas( document.getElementById( "c2d" ) );
+				
+			} );
+			
+			function initCanvas( c ) {
+				
+				canvas = c;
+				
+				try {
+		            c2d = canvas.getContext( "2d" );
+		            c2d.fillStyle = "rgb(255,255,255)";
+ 					c2d.fillRect( 0, 0, canvas.width, canvas.height );
+					
+					initBoids();
+					
+					setInterval( "tick()", 1000/25 );
+					
+					// tick();
+					
+					$( "#clickTick" ).click( function( e ) {
+						
+						tick();
+						
+						return false;
+						
+					} );
+					
+					// $( "#clickTick" ).css( "background-color", "#cc00cc" );
+					
+		        } catch( e ) {
+		        }
+				
+		        if( ! c2d ) {
+					
+					$( "canvas#c2d" ).css( "display", "none" );
+					$( "div#noCanvas" ).css( "display", "block" );
+					return;
+					
+		        }
+				
+			}
+			
+			function initBoids() {
+				
+				//
+				
+				var minSpeed = 0;
+				var maxSpeed = 4;
+				var maxForce = 2;
+				
+				var wanderDistance = 10;
+				var wanderRadius = 20;
+				var wanderStep = 1;
+				
+				//
+				
+				var bs = new BoidSystemModel();
+				
+				var rect = new Rectangle( 0, 0, 400, 400 );
+				
+				bs.setBounds( rect );
+				
+				for( var i = 0, m = numBoids; i < m; i++ ) {
+					
+					var boid = new Boid2DModel();
+					
+					boid.position.x = rect.x + Math.floor( Math.random() * rect.width );
+					boid.position.y = rect.y + Math.floor( Math.random() * rect.height );
+					
+					var speed = ( Math.random() * ( maxSpeed - minSpeed ) ) + minSpeed;
+					var e = Math.round( Math.random() * 360 ) * Math.PI / 180;
+					
+					boid.velocity.setLength( speed );
+					boid.velocity.setAngle( e );
+					
+					boid.minSpeed = minSpeed;
+					boid.maxSpeed = maxSpeed;
+					
+					boid.maxForce = maxForce;
+					
+					bs.addBoid( boid );
+					
+					console.log( "Boid #" + i + " added at " + boid.position.x + ", " + boid.position.y + " with velocity " + boid.velocity.x + ", " + boid.velocity.y );
+					
+					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", 10 );
+					
+				}
+				
+				boidSystem = bs;
+				
+			}
+			
+			function drawCircle( x, y, color, size ) {
+				
+				c2d.strokeStyle = color;
+				c2d.lineWidth = size;
+				c2d.lineCap = "round";
+				
+				c2d.beginPath(); 
+				c2d.moveTo( x - 0.1, y - 0.1 );
+				c2d.lineTo( x, y );
+				c2d.stroke();
+				
+			}
+			
+			function tick() {
+				
+				// console.log( "tick!" );
+				
+				c2d.fillStyle = "rgba( 255, 255, 255, 0.25 )";
+ 				c2d.fillRect( 0, 0, canvas.width, canvas.height );
+				
+				boidSystem.update();
+				
+				for( var i = 0, m = boidSystem.boids.length; i < m; i++ ) {
+					
+					var boid = boidSystem.getBoid( i );
+					
+					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", 10 );
+					
+				}
+				
+			}
+			
+		</script>
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="c2d" width="400" height="400"></canvas>
+			<div id="panel">
+				<form>
+					
+				</form>
+			</div>
+			<div id="clickTick">Tick!</div>
+			<div id="noCanvas">
+				<h1>Uh oh!</h1>
+				<p>Canvas doesn't seem to be initialising :(</p>
+				<p>Please view this page in <a href="http://www.google.com/chrome">Google Chrome</a></p>
+			</div>
+		</div>
+	</body>
+</html>
