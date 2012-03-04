@@ -45,4 +45,6 @@ form label {
 
 form input[type="range"] {
 	clear: right;
+	width: 200px;
+	height: 10px;
 }
