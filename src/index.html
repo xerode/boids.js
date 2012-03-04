@@ -6,6 +6,7 @@
 		<link rel="stylesheet" type="text/css" href="css/css3.css" />
 		<script src="js/jquery-1.7.1.min.js"></script>
 		<script src="js/jrc.js"></script>
+		<script src="js/webgl-utils.js"></script>
 		<script src="js/utils/Vector2D.js"></script>
 		<script src="js/boids/Boid2DModel.js"></script>
 		<script src="js/boids/BoidSystemModel.js"></script>
@@ -30,15 +31,12 @@
 				canvas = c;
 				
 				try {
+
 		            c2d = canvas.getContext( "2d" );
 		            c2d.fillStyle = "rgb(255,255,255)";
  					c2d.fillRect( 0, 0, canvas.width, canvas.height );
 					
 					initBoids();
-					
-					setInterval( "tick()", 1000/25 );
-					
-					// tick();
 					
 					$( "#clickTick" ).click( function( e ) {
 						
@@ -48,8 +46,18 @@
 						
 					} );
 					
-					// $( "#clickTick" ).css( "background-color", "#cc00cc" );
-					
+					$( "div#panel form input" ).change( function() {
+
+						console.log( "Change!" );
+
+					} );
+
+					$( 'input[type="range"]' ).each( function() {
+						$( this ).after( '<br />' );
+					} );
+
+					// tick();
+
 		        } catch( e ) {
 		        }
 				
@@ -143,6 +151,8 @@
 					
 				}
 				
+				requestAnimFrame( tick );
+
 			}
 			
 		</script>
@@ -152,7 +162,42 @@
 			<canvas id="c2d" width="400" height="400"></canvas>
 			<div id="panel">
 				<form>
-					
+					<fieldset>
+						<legend>Flocking behaviour</legend>
+						<label for="sepDist">Separation distance</label>
+						<input id="sepDist" name="sepDist" type="range" min="0" max="100" value="50" step="1" />
+						<label for="sepWeight">Separation weight</label>
+						<input id="sepWeight" name="sepWeight" type="range" min="0" max="100" value="1" step="1" />
+						<label for="alnDist">Alignment distance</label>
+						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="1" step="1" />
+						<label for="alnWeight">Alignment weight</label>
+						<input id="alnWeight" name="alnWeight" type="range" min="0" max="100" value="10" step="1" />
+						<label for="chsDist">Cohesion distance</label>
+						<input id="chsDist" name="chsDist" type="range" min="0" max="100" value="0" step="1" />
+						<label for="chsWeight">Cohesion weight</label>
+						<input id="chsWeight" name="chsWeight" type="range" min="0" max="100" value="20" step="1" />
+					</fieldset>
+					<fieldset>
+						<legend>Speed</legend>
+						<label for="minSpeed">Minimum speed</label>
+						<input id="minSpeed" name="minSpeed" type="range" min="0" max="100" value="50" step="1" />
+						<label for="maxSpeed">Maximum speed</label>
+						<input id="maxSpeed" name="maxSpeed" type="range" min="0" max="100" value="1" step="1" />
+						<label for="maxForce">Maximum force</label>
+						<input id="maxForce" name="maxForce" type="range" min="0" max="100" value="1" step="1" />
+					</fieldset>
+					<fieldset>
+						<legend>Display</legend>
+						<label for="boidSize">Boid size</label>
+						<input id="boidSize" name="boidSize" type="range" min="0" max="10" value="1" step="1" />
+						<label for="redrawAlpha">Redraw alpha</label>
+						<input id="redrawAlpha" name="redrawAlpha" type="range" min="0" max="1" value="0.25" step="0.05" />
+					</fieldset>
+					<fieldset>
+						<input type="button" value="Start" />
+						<input type="button" value="Stop" />
+						<input type="button" value="Reset" />
+					</fieldset>
 				</form>
 			</div>
 			<div id="clickTick">Tick!</div>

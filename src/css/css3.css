@@ -34,3 +34,15 @@ abbr,acronym { border:0;
 }
 
 /* Actual CSS */
+
+body {
+	background-color: #cccccc;
+}
+
+form label {
+	clear: left;
+}
+
+form input[type="range"] {
+	clear: right;
+}
