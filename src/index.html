@@ -22,7 +22,7 @@
 			var animating = false;
 
 			var boidSize = 2;
-			var redrawAlpha = 0.5;
+			var redrawAlpha = 0.2;
 
 			var updateProps = null;
 			var updateSystem = false;
@@ -61,8 +61,23 @@
 
 						console.log( "Change!" );
 
+						updateSystem = true;
+
+						updateProps = {
+
+							separationDistance: $( 'input#sepDist' ).attr( 'value' ),
+							separationWeight: $( 'input#sepWeight' ).attr( 'value' ),
+							alignmentDistance: $( 'input#alnDist' ).attr( 'value' ),
+							alignmentWeight: $( 'input#alnWeight' ).attr( 'value' ),
+							cohesionDistance: $( 'input#chsDist' ).attr( 'value' ),
+							cohesionWeight: $( 'input#chsWeight' ).attr( 'value' )
+
+						};
+
 						boidSize = $( 'input#boidSize' ).attr( 'value' );
 						redrawAlpha = $( 'input#redrawAlpha' ).attr( 'value' );
+
+
 
 					} );
 
@@ -210,26 +225,28 @@
 					<fieldset>
 						<legend>Flocking behaviour</legend>
 						<label for="sepDist">Separation distance</label>
-						<input id="sepDist" name="sepDist" type="range" min="0" max="100" value="50" step="1" />
+						<input id="sepDist" name="sepDist" type="range" min="0" max="100" value="20" step="1" />
 						<label for="sepWeight">Separation weight</label>
-						<input id="sepWeight" name="sepWeight" type="range" min="0" max="100" value="1" step="1" />
+						<input id="sepWeight" name="sepWeight" type="range" min="0" max="100" value="20" step="1" />
 						<label for="alnDist">Alignment distance</label>
-						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="1" step="1" />
+						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="10" step="1" />
 						<label for="alnWeight">Alignment weight</label>
-						<input id="alnWeight" name="alnWeight" type="range" min="0" max="100" value="10" step="1" />
+						<input id="alnWeight" name="alnWeight" type="range" min="0" max="100" value="5" step="1" />
 						<label for="chsDist">Cohesion distance</label>
-						<input id="chsDist" name="chsDist" type="range" min="0" max="100" value="0" step="1" />
+						<input id="chsDist" name="chsDist" type="range" min="0" max="100" value="5" step="1" />
 						<label for="chsWeight">Cohesion weight</label>
-						<input id="chsWeight" name="chsWeight" type="range" min="0" max="100" value="20" step="1" />
+						<input id="chsWeight" name="chsWeight" type="range" min="0" max="100" value="10" step="1" />
 					</fieldset>
 					<fieldset>
 						<legend>Speed</legend>
 						<label for="minSpeed">Minimum speed</label>
-						<input id="minSpeed" name="minSpeed" type="range" min="0" max="100" value="50" step="1" />
+						<input id="minSpeed" name="minSpeed" type="range" min="0" max="10" value="0" step="1" />
 						<label for="maxSpeed">Maximum speed</label>
-						<input id="maxSpeed" name="maxSpeed" type="range" min="0" max="100" value="1" step="1" />
+						<input id="maxSpeed" name="maxSpeed" type="range" min="0" max="10" value="4" step="1" />
+						<label for="minForce">Minimum force</label>
+						<input id="minForce" name="minForce" type="range" min="0" max="10" value="0" step="1" />
 						<label for="maxForce">Maximum force</label>
-						<input id="maxForce" name="maxForce" type="range" min="0" max="100" value="1" step="1" />
+						<input id="maxForce" name="maxForce" type="range" min="0" max="10" value="2" step="1" />
 					</fieldset>
 					<fieldset>
 						<legend>Display</legend>
@@ -241,9 +258,9 @@
 							<option value="10">
 						</datalist>
 						<label for="redrawAlpha">Redraw alpha</label>
-						<input id="redrawAlpha" name="redrawAlpha" type="range" min="0" max="1" value="0.5" step="0.05" />
+						<input id="redrawAlpha" name="redrawAlpha" type="range" min="0" max="1" value="0.2" step="0.05" />
 					</fieldset>
-					<fieldset>
+					<fieldset id="buttons">
 						<input id="start" type="button" value="Start" />
 						<input id="stop" type="button" value="Stop" />
 						<input id="reset" type="reset" value="Reset" />

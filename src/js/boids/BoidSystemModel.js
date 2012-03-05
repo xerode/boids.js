@@ -3,23 +3,26 @@ var BoidSystemModel = function() {
 	this.boids = [];
 	this.bounds = new Rectangle();
 	
-	this.separationWeight = 80;
-	this.separationDistance = 80;
-	this.alignmentWeight = 1;
-	this.alignmentDistance = 10;
-	this.cohesionWeight = 0;
-	this.cohesionDistance = 20;
+	this.separationWeight = 20;
+	this.separationDistance = 20;
+	this.alignmentWeight = 10;
+	this.alignmentDistance = 5;
+	this.cohesionWeight = 5;
+	this.cohesionDistance = 10;
+	this.updateProps = null;
 	
 	this.update = function() {
 		
-		for( var i = 0, m = this.boids.length; i < m; i++ ) {
-			
+		var i = this.boids.length;
+
+		while( i-- ) {
+
 			var b = this.getBoid( i );
 			
+			b.update();
 			b.flock( this.boids, this.separationWeight, this.alignmentWeight, this.cohesionWeight, this.separationDistance, this.alignmentDistance, this.cohesionDistance );
 			b.seek( new Vector2D( 200, 200 ), 0.005 );
 			// b.wander( 10 );
-			b.update();
 			
 			if( ! this.bounds.contains( b.position.x, b.position.y ) ) {
 				
@@ -44,11 +47,30 @@ var BoidSystemModel = function() {
 				}
 				
 			}
-			
+
 		}
 		
+		if( this.updateProps ) {
+
+			this.separationDistance = this.updateProps.separationDistance;
+			this.separationWeight = this.updateProps.separationWeight;
+			this.alignmentDistance = this.updateProps.alignmentDistance;
+			this.alignmentWeight = this.updateProps.alignmentWeight;
+			this.cohesionDistance = this.updateProps.cohesionDistance;
+			this.cohesionWeight = this.updateProps.cohesionWeight;
+
+			this.updateProps = null;
+
+		}
+
 	}
 	
+	this.setUpdate = function( u ) {
+
+		this.updateProps = u;
+
+	}
+
 	this.addBoid = function( b ) {
 		
 		this.boids[ this.boids.length ] = b;

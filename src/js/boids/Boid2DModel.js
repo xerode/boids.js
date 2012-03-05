@@ -139,7 +139,7 @@ var Boid2DModel = function() {
 			}
 			
 		}
-		
+
 		return force;
 	}
 	
@@ -182,7 +182,7 @@ var Boid2DModel = function() {
 			return force;
 			
 		}
-		
+
 		return force;
 		
 	}
@@ -252,7 +252,7 @@ var Boid2DModel = function() {
 		}
 		
 		this.acceleration = this.acceleration.add( this.steering );
-		
+
 	}
 	
 }
