@@ -72,7 +72,9 @@ var Boid2DModel = function() {
 		var count = 0;
 		var boid = new Boid2DModel();
 
-		for( var i = 0; i < boids.length; i++ ) {
+		var i = boids.length;
+
+		while( i-- ) {
 			
 			boid = boids[ i ];
 			
@@ -118,7 +120,9 @@ var Boid2DModel = function() {
 		var count = 0;
 		var boid = new Boid2DModel();
 		
-		for( var i = 0; i < boids.length; i++ ) {
+		var i = boids.length;
+
+		while( i-- ) {
 			
 			boid = boids[ i ];
 			distance = this.position.dist( boid.position );
@@ -139,7 +143,7 @@ var Boid2DModel = function() {
 			}
 			
 		}
-
+		
 		return force;
 	}
 	
@@ -162,7 +166,9 @@ var Boid2DModel = function() {
 		var count = 0;
 		var boid = new Boid2DModel();
 
-		for( var i = 0; i < boids.length; i++ ) {
+		var i = boids.length;
+
+		while( i-- ) {
 			
 			boid = boids[ i ];
 			distance = this.position.dist( this.position );
@@ -182,7 +188,7 @@ var Boid2DModel = function() {
 			return force;
 			
 		}
-
+		
 		return force;
 		
 	}
@@ -252,7 +258,7 @@ var Boid2DModel = function() {
 		}
 		
 		this.acceleration = this.acceleration.add( this.steering );
-
+		
 	}
 	
 }
