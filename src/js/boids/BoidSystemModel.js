@@ -4,7 +4,7 @@ var BoidSystemModel = function() {
 	this.bounds = new Rectangle();
 	
 	this.separationWeight = 20;
-	this.separationDistance = 20;
+	this.separationDistance = 25;
 	this.alignmentWeight = 10;
 	this.alignmentDistance = 5;
 	this.cohesionWeight = 5;
@@ -15,14 +15,16 @@ var BoidSystemModel = function() {
 		
 		var i = this.boids.length;
 
+		var point = new Vector2D( 200, 200 );
+
 		while( i-- ) {
 
 			var b = this.getBoid( i );
 			
-			b.update();
-			b.flock( this.boids, this.separationWeight, this.alignmentWeight, this.cohesionWeight, this.separationDistance, this.alignmentDistance, this.cohesionDistance );
-			b.seek( new Vector2D( 200, 200 ), 0.005 );
 			// b.wander( 10 );
+			b.flock( this.boids, this.separationWeight, this.alignmentWeight, this.cohesionWeight, this.separationDistance, this.alignmentDistance, this.cohesionDistance );
+			b.seek( point, 0.005 );
+			b.update();
 			
 			if( ! this.bounds.contains( b.position.x, b.position.y ) ) {
 				
