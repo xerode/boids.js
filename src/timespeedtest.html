@@ -27,7 +27,7 @@
 			var updateProps = null;
 			var updateSystem = false;
 			
-			var particle = { x: 200, y: 200 };
+			var particles = [];
 			var lastTick = 0;
 
 			$( document ).ready( function() {
@@ -47,6 +47,8 @@
 		            c2d = canvas.getContext( "2d" );
 		            c2d.fillStyle = "rgb(255,255,255)";
  					c2d.fillRect( 0, 0, canvas.width, canvas.height );
+
+ 					initParticles( 100 );
 					
 					$( "input#start" ).click( function( e ) {
 						startAnimation();
@@ -56,6 +58,14 @@
 					$( "input#stop" ).click( function( e ) {
 						stopAnimation();
 						return false;
+					} );
+
+					$( "a#clickTick" ).click( function( e ) {
+
+						tick();
+
+						return false;
+
 					} );
 
 		        } catch( e ) {
@@ -70,48 +80,28 @@
 		        }
 				
 			}
-
-			/*
-			function initParticles() {
-				
-				//
-				
-				var minSpeed = 0;
-				var maxSpeed = 4;
-				var maxForce = 2;
-				
-				rect = new Rectangle( 0, 0, 400, 400 );
-				
-				for( var i = 0, m = numBoids; i < m; i++ ) {
-					
-					var boid = new Boid2DModel();
-					
-					boid.position.x = rect.x + Math.floor( Math.random() * rect.width );
-					boid.position.y = rect.y + Math.floor( Math.random() * rect.height );
-					
-					var speed = ( Math.random() * ( maxSpeed - minSpeed ) ) + minSpeed;
-					var e = Math.round( Math.random() * 360 ) * Math.PI / 180;
-					
-					boid.velocity.setLength( speed );
-					boid.velocity.setAngle( e );
-					
-					boid.minSpeed = minSpeed;
-					boid.maxSpeed = maxSpeed;
-					
-					boid.maxForce = maxForce;
-					
-					bs.addBoid( boid );
-					
-					console.log( "Boid #" + i + " added at " + boid.position.x + ", " + boid.position.y + " with velocity " + boid.velocity.x + ", " + boid.velocity.y );
-					
-					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", boidSize );
-					
-				}
-				
-				boidSystem = bs;
-				
-			}
 			
+			function initParticles( n ) {
+
+				particles = [];
+
+				for( var i = 0; i < n; i++ ) {
+
+					var p = {
+						x: Math.random() * 400,
+						y: Math.random() * 400,
+						vx: Math.random() * 100 - 50,
+						vy: Math.random() * 100 - 50
+					};
+
+					particles[ i ] = p;
+
+					drawCircle( p.x, p.y, "rgba( 255, 0, 0, 1 )", 10 );
+
+				}
+
+			}
+
 			function drawCircle( x, y, color, size ) {
 				
 				c2d.strokeStyle = color;
@@ -124,72 +114,31 @@
 				c2d.stroke();
 				
 			}
-			
+
 			function tick() {
-				
-				// console.log( "tick!" );
-				
+
+				// console.log( "Tick" );
+
+				var now = new Date().getTime();
+				var diff = now - lastTick;
+
+				var i = particles.length;
+
+				// console.log( "particles == " + i );
+
 				c2d.fillStyle = "rgba( 255, 255, 255, " + redrawAlpha + " )";
- 				c2d.fillRect( 0, 0, canvas.width, canvas.height );
-
- 				if( updateSystem ) {
-
- 					this.boidSystem.setUpdate( updateProps );
-
- 					updateProps = null;
-
- 					updateSystem = false;
-
- 				}
-				
-				boidSystem.update();
-
-				var i = boidSystem.boids.length;
+				c2d.fillRect( 0, 0, canvas.width, canvas.height );
 
 				while( i-- ) {
 
-					var boid = boidSystem.getBoid( i );
-					
-					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", boidSize );
-
-				}
-
-			}
-			*/
-			
-			function drawCircle( x, y, color, size ) {
-				
-				c2d.strokeStyle = color;
-				c2d.lineWidth = size;
-				c2d.lineCap = "round";
-				
-				c2d.beginPath(); 
-				c2d.moveTo( x - 0.1, y - 0.1 );
-				c2d.lineTo( x, y );
-				c2d.stroke();
-				
-			}
-
-			function animationTick() {
-
-				if( animating ) {
-
-					requestAnimFrame( animationTick );
-
-					// tick();
-
-					var now = new Date().getTime();
-					var diff = now - lastTick;
-
-					console.log( "Diff == " + diff );
-
-					//
-
-					c2d.fillStyle = "rgba( 255, 255, 255, " + redrawAlpha + " )";
- 					c2d.fillRect( 0, 0, canvas.width, canvas.height );
+					var particle = particles[ i ];
 
 					particle.x += particle.vx / 1000 * diff;
 					particle.y += particle.vy / 1000 * diff;
+
+					// console.log( "particle " + i + " x: " + particle.x + ", y: " + particle.y );
+
+					
 
 					if( ! rect.contains( particle.x, particle.y ) ) {
 						
@@ -215,18 +164,33 @@
 						
 					}
 
-					drawCircle( particle.x, particle.y, "rgba( 0, 0, 0, 1 )", boidSize );
-					lastTick = now;
+					
+
+					drawCircle( particle.x, particle.y, "rgba( 255, 0, 0, 1 )", 10 );
+
+				}
+
+				lastTick = now;
+
+			}
+
+			function animationTick() {
+
+				if( animating ) {
+
+					requestAnimFrame( animationTick );
+
+					tick();
 
 				}
 
 			}
 
 			function startAnimation() {
-				animating = true;
 
-				particle.vx = 200;
-				particle.vy = 0;
+				lastTick = new Date().getTime();
+
+				animating = true;
 
 				animationTick();
 			}
@@ -242,52 +206,13 @@
 			<canvas id="c2d" width="400" height="400"></canvas>
 			<div id="panel">
 				<form>
-					<fieldset>
-						<legend>Flocking behaviour</legend>
-						<label for="sepDist">Separation distance</label>
-						<input id="sepDist" name="sepDist" type="range" min="0" max="100" value="20" step="1" />
-						<label for="sepWeight">Separation weight</label>
-						<input id="sepWeight" name="sepWeight" type="range" min="0" max="100" value="25" step="1" />
-						<label for="alnDist">Alignment distance</label>
-						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="10" step="1" />
-						<label for="alnWeight">Alignment weight</label>
-						<input id="alnWeight" name="alnWeight" type="range" min="0" max="100" value="5" step="1" />
-						<label for="chsDist">Cohesion distance</label>
-						<input id="chsDist" name="chsDist" type="range" min="0" max="100" value="5" step="1" />
-						<label for="chsWeight">Cohesion weight</label>
-						<input id="chsWeight" name="chsWeight" type="range" min="0" max="100" value="10" step="1" />
-					</fieldset>
-					<!--
-					<fieldset>
-						<legend>Speed</legend>
-						<label for="minSpeed">Minimum speed</label>
-						<input id="minSpeed" name="minSpeed" type="range" min="0" max="10" value="0" step="1" />
-						<label for="maxSpeed">Maximum speed</label>
-						<input id="maxSpeed" name="maxSpeed" type="range" min="0" max="10" value="4" step="1" />
-						<label for="minForce">Minimum force</label>
-						<input id="minForce" name="minForce" type="range" min="0" max="10" value="0" step="1" />
-						<label for="maxForce">Maximum force</label>
-						<input id="maxForce" name="maxForce" type="range" min="0" max="10" value="2" step="1" />
-					</fieldset>
-					-->
-					<fieldset>
-						<legend>Display</legend>
-						<label for="boidSize">Boid size</label>
-						<input id="boidSize" name="boidSize" type="range" min="0" max="20" value="2" step="1" list="boidSizeList" />
-						<datalist id="boidSizeList">
-							<option value="0">
-							<option value="5">
-							<option value="10">
-						</datalist>
-						<label for="redrawAlpha">Redraw alpha</label>
-						<input id="redrawAlpha" name="redrawAlpha" type="range" min="0" max="1" value="0.2" step="0.05" />
-					</fieldset>
 					<fieldset id="buttons">
 						<input id="start" type="button" value="Start" />
 						<input id="stop" type="button" value="Stop" />
 						<input id="reset" type="reset" value="Reset" />
 					</fieldset>
 				</form>
+				<p><a href="#" id="clickTick">Tick!</a></p>
 			</div>
 			<div id="noCanvas">
 				<h1>Uh oh!</h1>
