@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Boids</title>
-		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css" />
 		<link rel="stylesheet" type="text/css" href="css/css3.css" />
 		<script src="js/jquery-1.7.1.min.js"></script>
 		<script src="js/jrc.js"></script>
@@ -25,6 +25,8 @@
 
 			var updateProps = null;
 			var updateSystem = false;
+			
+			var lastTick = 0;
 			
 			$( document ).ready( function() {
 				
@@ -57,20 +59,30 @@
 					} );
 
 					$( "div#panel form input" ).change( function() {
-
-						console.log( "Change!" );
-
+						
+						// find span with value in, update it
+						
+						var vn = Number( $( this ).attr( "value" ) );
+						
+						if( vn < 1 ) {
+							vn = vn.toFixed( 2 );
+						}
+						
+						$( "span#" + $( this ).attr( "id" ) + "Display" ).html( vn );
+						
+						//
+						
 						updateSystem = true;
-
+						
 						updateProps = {
-
+							
 							separationDistance: $( 'input#sepDist' ).attr( 'value' ),
 							separationWeight: $( 'input#sepWeight' ).attr( 'value' ),
 							alignmentDistance: $( 'input#alnDist' ).attr( 'value' ),
 							alignmentWeight: $( 'input#alnWeight' ).attr( 'value' ),
 							cohesionDistance: $( 'input#chsDist' ).attr( 'value' ),
 							cohesionWeight: $( 'input#chsWeight' ).attr( 'value' )
-
+							
 						};
 
 						boidSize = $( 'input#boidSize' ).attr( 'value' );
@@ -80,7 +92,7 @@
 
 					} );
 
-					$( 'input[type="range"]' ).each( function() {
+					$( 'span.valueDisplay' ).each( function() {
 						$( this ).after( '<br />' );
 					} );
 
@@ -104,8 +116,8 @@
 				//
 				
 				var minSpeed = 0;
-				var maxSpeed = 4;
-				var maxForce = 2;
+				var maxSpeed = 50;
+				var maxForce = 50;
 				
 				var wanderDistance = 10;
 				var wanderRadius = 20;
@@ -166,6 +178,9 @@
 				
 				// console.log( "tick!" );
 				
+				var now = new Date().getTime();
+				var diff = now - lastTick;
+				
 				c2d.fillStyle = "rgba( 255, 255, 255, " + redrawAlpha + " )";
  				c2d.fillRect( 0, 0, canvas.width, canvas.height );
 
@@ -179,7 +194,7 @@
 
  				}
 				
-				boidSystem.update();
+				boidSystem.update( diff );
 
 				var i = boidSystem.boids.length;
 
@@ -190,6 +205,8 @@
 					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", boidSize );
 
 				}
+				
+				lastTick = now;
 
 			}
 			
@@ -206,6 +223,7 @@
 			}
 
 			function startAnimation() {
+				lastTick = new Date().getTime();
 				animating = true;
 				animationTick();
 			}
@@ -225,16 +243,22 @@
 						<legend>Flocking behaviour</legend>
 						<label for="sepDist">Separation distance</label>
 						<input id="sepDist" name="sepDist" type="range" min="0" max="100" value="20" step="1" />
+						<span id="sepDistDisplay" class="valueDisplay">20</span>
 						<label for="sepWeight">Separation weight</label>
 						<input id="sepWeight" name="sepWeight" type="range" min="0" max="100" value="20" step="1" />
+						<span id="sepWeightDisplay" class="valueDisplay">20</span>
 						<label for="alnDist">Alignment distance</label>
 						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="10" step="1" />
+						<span id="alnDistDisplay" class="valueDisplay">10</span>
 						<label for="alnWeight">Alignment weight</label>
 						<input id="alnWeight" name="alnWeight" type="range" min="0" max="100" value="5" step="1" />
+						<span id="alnWeightDisplay" class="valueDisplay">5</span>
 						<label for="chsDist">Cohesion distance</label>
 						<input id="chsDist" name="chsDist" type="range" min="0" max="100" value="5" step="1" />
+						<span id="chsDistDisplay" class="valueDisplay">5</span>
 						<label for="chsWeight">Cohesion weight</label>
 						<input id="chsWeight" name="chsWeight" type="range" min="0" max="100" value="10" step="1" />
+						<span id="chsWeightDisplay" class="valueDisplay">10</span>
 					</fieldset>
 					<!--
 					<fieldset>
@@ -258,8 +282,10 @@
 							<option value="5">
 							<option value="10">
 						</datalist>
+						<span id="boidSizeDisplay" class="valueDisplay">2</span>
 						<label for="redrawAlpha">Redraw alpha</label>
 						<input id="redrawAlpha" name="redrawAlpha" type="range" min="0" max="1" value="0.2" step="0.05" />
+						<span id="redrawAlphaDisplay" class="valueDisplay">0.20</span>
 					</fieldset>
 					<fieldset id="buttons">
 						<input id="start" type="button" value="Start" />
