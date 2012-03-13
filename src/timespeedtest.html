@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Boids</title>
-		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css">
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.4.1/build/cssreset/cssreset-min.css" />
 		<link rel="stylesheet" type="text/css" href="css/css3.css" />
 		<script src="js/jquery-1.7.1.min.js"></script>
 		<script src="js/jrc.js"></script>
@@ -17,7 +17,7 @@
 			var c2d; 
 			var canvas;
 			var boidSystem;
-			var numBoids = 50;
+			var numBoids = 100;
 			var animating = false;
 			var rect = new Rectangle( 0, 0, 400, 400 );
 
@@ -48,7 +48,7 @@
 		            c2d.fillStyle = "rgb(255,255,255)";
  					c2d.fillRect( 0, 0, canvas.width, canvas.height );
 
- 					initParticles( 100 );
+ 					initParticles( 1000 );
 					
 					$( "input#start" ).click( function( e ) {
 						startAnimation();
@@ -90,13 +90,13 @@
 					var p = {
 						x: Math.random() * 400,
 						y: Math.random() * 400,
-						vx: Math.random() * 100 - 50,
-						vy: Math.random() * 100 - 50
+						vx: Math.random() * 400 - 200,
+						vy: Math.random() * 400 - 200
 					};
 
 					particles[ i ] = p;
 
-					drawCircle( p.x, p.y, "rgba( 255, 0, 0, 1 )", 10 );
+					drawCircle( p.x, p.y, "rgba( 255, 0, 0, 1 )", 2 );
 
 				}
 
@@ -136,10 +136,6 @@
 					particle.x += particle.vx / 1000 * diff;
 					particle.y += particle.vy / 1000 * diff;
 
-					// console.log( "particle " + i + " x: " + particle.x + ", y: " + particle.y );
-
-					
-
 					if( ! rect.contains( particle.x, particle.y ) ) {
 						
 						if( particle.x < rect.x ) {
@@ -164,9 +160,7 @@
 						
 					}
 
-					
-
-					drawCircle( particle.x, particle.y, "rgba( 255, 0, 0, 1 )", 10 );
+					drawCircle( particle.x, particle.y, "rgba( 255, 0, 0, 1 )", 2 );
 
 				}
 
