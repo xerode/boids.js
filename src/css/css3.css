@@ -1,38 +1,5 @@
 @charset "UTF-8";
 
-/* YUI Reset CSS */
-/*
-body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td { 
-	margin:0;
-	padding:0;
-}
-table {
-	border-collapse:collapse;
-	border-spacing:0;
-}
-fieldset,img { 
-	border:0;
-}
-address,caption,cite,code,dfn,em,strong,th,var {
-	font-style:normal;
-	font-weight:normal;
-}
-ol,ul {
-	list-style:none;
-}
-caption,th {
-	text-align:left;
-}
-h1,h2,h3,h4,h5,h6 {
-	font-size:100%;
-	font-weight:normal;
-}
-q:before,q:after {
-	content:'';
-}
-abbr,acronym { border:0;
-}
-*/
 /* Actual CSS */
 
 body {
@@ -47,6 +14,10 @@ div#container {
 	margin: 0 0 0 -200px;
 }
 
+form {
+	
+}
+
 form fieldset {
 	width: 400px;
 }
@@ -59,14 +30,23 @@ form legend, form input[type="button"], form input[type="reset"] {
 form label {
 	display: block;
 	font-size: 1.2em;
-	width: 200px;
+	width: 150px;
 	clear: left;
 	float: left;
 }
 
 form input[type="range"] {
-	clear: right;
+	clear: none;
 	width: 200px;
 	height: 10px;
 	float: left;
+}
+
+form span.valueDisplay {
+	display: block;
+	clear: none;
+	float: left;
+	width: 50px;
+	font-size: 1.2em;
+	text-align: center;
 }

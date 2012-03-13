@@ -25,7 +25,7 @@ var Boid2DModel = function() {
 		
 	}
 	
-	this.update = function() {
+	this.update = function( ms ) {
 		
 		// console.log( "Velocity == " + this.velocity.x + ", " + this.velocity.y );
 		
@@ -38,7 +38,8 @@ var Boid2DModel = function() {
 		
 		this.velocity.truncate( this.maxSpeed );
 		
-		this.position = this.position.add( this.velocity );
+		this.position.x += this.velocity.x / 1000 * ms;
+		this.position.y += this.velocity.y / 1000 * ms;
 		
 		// console.log( "End position == " + this.position.x + ", " + this.position.y );
 		

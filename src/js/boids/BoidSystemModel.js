@@ -11,7 +11,7 @@ var BoidSystemModel = function() {
 	this.cohesionDistance = 10;
 	this.updateProps = null;
 	
-	this.update = function() {
+	this.update = function( ms ) {
 		
 		var i = this.boids.length;
 
@@ -23,8 +23,8 @@ var BoidSystemModel = function() {
 			
 			// b.wander( 10 );
 			b.flock( this.boids, this.separationWeight, this.alignmentWeight, this.cohesionWeight, this.separationDistance, this.alignmentDistance, this.cohesionDistance );
-			b.seek( point, 0.005 );
-			b.update();
+			// b.seek( point, 0.005 );
+			b.update( ms );
 			
 			if( ! this.bounds.contains( b.position.x, b.position.y ) ) {
 				
