@@ -116,8 +116,8 @@
 				//
 				
 				var minSpeed = 0;
-				var maxSpeed = 50;
-				var maxForce = 50;
+				var maxSpeed = 100;
+				var maxForce = 100;
 				
 				var wanderDistance = 10;
 				var wanderRadius = 20;
@@ -251,14 +251,14 @@
 						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="10" step="1" />
 						<span id="alnDistDisplay" class="valueDisplay">10</span>
 						<label for="alnWeight">Alignment weight</label>
-						<input id="alnWeight" name="alnWeight" type="range" min="0" max="100" value="5" step="1" />
-						<span id="alnWeightDisplay" class="valueDisplay">5</span>
+						<input id="alnWeight" name="alnWeight" type="range" min="0" max="1" value="0.2" step="0.05" />
+						<span id="alnWeightDisplay" class="valueDisplay">0.20</span>
 						<label for="chsDist">Cohesion distance</label>
 						<input id="chsDist" name="chsDist" type="range" min="0" max="100" value="5" step="1" />
 						<span id="chsDistDisplay" class="valueDisplay">5</span>
 						<label for="chsWeight">Cohesion weight</label>
-						<input id="chsWeight" name="chsWeight" type="range" min="0" max="100" value="10" step="1" />
-						<span id="chsWeightDisplay" class="valueDisplay">10</span>
+						<input id="chsWeight" name="chsWeight" type="range" min="0" max="1" value="0.2" step="0.05" />
+						<span id="chsWeightDisplay" class="valueDisplay">0.20</span>
 					</fieldset>
 					<!--
 					<fieldset>

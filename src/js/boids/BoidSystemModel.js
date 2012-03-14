@@ -5,9 +5,9 @@ var BoidSystemModel = function() {
 	
 	this.separationWeight = 20;
 	this.separationDistance = 25;
-	this.alignmentWeight = 10;
+	this.alignmentWeight = 0.2;
 	this.alignmentDistance = 5;
-	this.cohesionWeight = 5;
+	this.cohesionWeight = 0.2;
 	this.cohesionDistance = 10;
 	this.updateProps = null;
 	
