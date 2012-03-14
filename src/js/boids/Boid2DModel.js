@@ -184,7 +184,7 @@ var Boid2DModel = function() {
 		if( count > 0 ) {
 			
 			force = force.multiply( 1 / count );
-			force = steer( force );
+			force = steer( force, false, 0 );
 			
 			return force;
 			
@@ -252,7 +252,7 @@ var Boid2DModel = function() {
 		offset.x = this.wanderRadius * Math.cos( this.wanderTheta );
 		offset.y = this.wanderRadius * Math.sin( this.wanderPhi );
 		
-		this.steering = this.steer( pos.add( offset ) );
+		this.steering = this.steer( pos.add( offset ), false, 0 );
 		
 		if( multiplier != 1.0 ) {
 			this.steering = this.steering.multiply( multiplier );
