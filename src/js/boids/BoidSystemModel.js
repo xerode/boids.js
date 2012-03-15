@@ -84,6 +84,18 @@ var BoidSystemModel = function() {
 		return this.boids[ i ];
 		
 	}
+
+	this.setBoids = function( b ) {
+		
+		this.boids = b;
+		
+	}
+	
+	this.getBoids = function() {
+		
+		return this.boids;
+		
+	}
 	
 	this.setBounds = function( r ) {
 		

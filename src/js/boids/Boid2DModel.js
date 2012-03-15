@@ -27,21 +27,22 @@ var Boid2DModel = function() {
 	
 	this.update = function( ms ) {
 		
-		// console.log( "Velocity == " + this.velocity.x + ", " + this.velocity.y );
-		
-		// console.log( "Initial position == " + this.position.x + ", " + this.position.y );
-		
 		this.velocity = this.velocity.add( this.acceleration );
+
+		/*
+		if( this.velocity.getLengthSQ > this.maxSpeed * this.maxSpeed ) {
+			this.velocity.normalize();
+			this.velocity = this.velocity.multiply( this.maxSpeed );
+		}
+		*/
 		
+		this.velocity.truncate( this.maxSpeed );
+
 		this.acceleration.x = 0;
 		this.acceleration.y = 0;
 		
-		this.velocity.truncate( this.maxSpeed );
-		
 		this.position.x += this.velocity.x / 1000 * ms;
 		this.position.y += this.velocity.y / 1000 * ms;
-		
-		// console.log( "End position == " + this.position.x + ", " + this.position.y );
 		
 	}
 	
@@ -61,7 +62,7 @@ var Boid2DModel = function() {
 			this.steering = this.steering.multiply( multiplier );
 		}
 		
-		this.acceleration.incrementBy( this.steering );
+		this.acceleration = this.acceleration.add( this.steering );
 		
 	}
 	

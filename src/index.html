@@ -10,6 +10,7 @@
 		<script src="js/webgl-utils.js"></script>
 		<script src="js/utils/Vector2D.js"></script>
 		<script src="js/boids/Boid2DModel.js"></script>
+		<script src="js/boids/Boid2DFactory.js"></script>
 		<script src="js/boids/BoidSystemModel.js"></script>
 		<script src="js/geom/Rectangle.js"></script>
 		<script>
@@ -37,7 +38,7 @@
 			} );
 			
 			function initCanvas( c ) {
-				
+
 				canvas = c;
 				
 				try {
@@ -128,6 +129,8 @@
 			function initBoids() {
 				
 				//
+
+				console.log( "initBoids" );
 				
 				var minSpeed = 0;
 				var maxSpeed = 100;
@@ -142,33 +145,21 @@
 				var bs = new BoidSystemModel();
 				
 				var rect = new Rectangle( 0, 0, 400, 400 );
-				
 				bs.setBounds( rect );
 				
-				for( var i = 0, m = numBoids; i < m; i++ ) {
-					
-					var boid = new Boid2DModel();
-					
-					boid.position.x = rect.x + Math.floor( Math.random() * rect.width );
-					boid.position.y = rect.y + Math.floor( Math.random() * rect.height );
-					
-					var speed = ( Math.random() * ( maxSpeed - minSpeed ) ) + minSpeed;
-					var e = Math.round( Math.random() * 360 ) * Math.PI / 180;
-					
-					boid.velocity.setLength( speed );
-					boid.velocity.setAngle( e );
-					
-					boid.minSpeed = minSpeed;
-					boid.maxSpeed = maxSpeed;
-					
-					boid.maxForce = maxForce;
-					
-					bs.addBoid( boid );
-					
+				var bf = new Boid2DFactory();
+				bs.setBoids( bf.spawnBoids( 100, 5, rect, minSpeed, maxSpeed, maxForce, wanderDistance, wanderRadius, wanderStep ) );
+				
+				var i = bs.boids.length;
+
+				while( i-- ) {
+
+					var boid = bs.boids[ i ];
+
 					console.log( "Boid #" + i + " added at " + boid.position.x + ", " + boid.position.y + " with velocity " + boid.velocity.x + ", " + boid.velocity.y );
 					
 					drawCircle( boid.position.x, boid.position.y, "rgba( 0, 0, 0, 1 )", boidSize );
-					
+
 				}
 				
 				boidSystem = bs;
@@ -258,15 +249,15 @@
 						<label for="sepDist">Separation distance</label>
 						<input id="sepDist" name="sepDist" type="range" min="0" max="100" value="20" step="1" />
 						<label for="sepWeight">Separation weight</label>
-						<input id="sepWeight" name="sepWeight" type="range" min="0" max="100" value="20" step="1" />
+						<input id="sepWeight" name="sepWeight" type="range" min="0" max="5" value="5" step="0.1" />
 						<label for="alnDist">Alignment distance</label>
 						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="10" step="1" />
 						<label for="alnWeight">Alignment weight</label>
-						<input id="alnWeight" name="alnWeight" type="range" min="0" max="1" value="0.2" step="0.05" />
+						<input id="alnWeight" name="alnWeight" type="range" min="0" max="1" value="0.20" step="0.05" />
 						<label for="chsDist">Cohesion distance</label>
 						<input id="chsDist" name="chsDist" type="range" min="0" max="100" value="5" step="1" />
 						<label for="chsWeight">Cohesion weight</label>
-						<input id="chsWeight" name="chsWeight" type="range" min="0" max="1" value="0.2" step="0.05" />
+						<input id="chsWeight" name="chsWeight" type="range" min="0" max="1" value="0.20" step="0.05" />
 					</fieldset>
 					<!--
 					<fieldset>
