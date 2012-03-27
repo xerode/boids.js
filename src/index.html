@@ -134,11 +134,11 @@
 				
 				var minSpeed = 0;
 				var maxSpeed = 100;
-				var maxForce = 100;
+				var maxForce = 200;
 				
-				var wanderDistance = 10;
-				var wanderRadius = 20;
-				var wanderStep = 1;
+				var wanderDistance = 30;
+				var wanderRadius = 60;
+				var wanderStep = 0.25;
 				
 				//
 				
@@ -249,7 +249,7 @@
 						<label for="sepDist">Separation distance</label>
 						<input id="sepDist" name="sepDist" type="range" min="0" max="100" value="20" step="1" />
 						<label for="sepWeight">Separation weight</label>
-						<input id="sepWeight" name="sepWeight" type="range" min="0" max="5" value="5" step="0.1" />
+						<input id="sepWeight" name="sepWeight" type="range" min="0" max="10" value="5" step="0.1" />
 						<label for="alnDist">Alignment distance</label>
 						<input id="alnDist" name="alnDist" type="range" min="0" max="100" value="10" step="1" />
 						<label for="alnWeight">Alignment weight</label>
