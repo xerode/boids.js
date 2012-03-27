@@ -12,9 +12,10 @@ var Boid2DModel = function() {
 	this.maxForce = 0;
 	this.wanderTheta = 0;
 	this.wanderPhi = 0;
-	this.wanderRadius = 0;
-	this.wanderDistance = 0;
-	this.wanderStep = 0;
+	this.wanderPsi = 0;
+	this.wanderRadius = 30;
+	this.wanderDistance = 60;
+	this.wanderStep = 0.25;
 	
 	this.reset = function() {
 		this.position = new Vector2D();
@@ -26,13 +27,12 @@ var Boid2DModel = function() {
 	this.update = function( ms ) {
 		
 		this.velocity.incrementBy( this.acceleration );
+		this.acceleration.zero();
 		
 		if( this.velocity.getLengthSquared() > this.maxSpeed * this.maxSpeed ) {
 			this.velocity.normalize();
 			this.velocity.scaleBy( this.maxSpeed );
 		}
-		
-		this.acceleration.zero();
 		
 		this.position.x += this.velocity.x / 1000 * ms;
 		this.position.y += this.velocity.y / 1000 * ms;
@@ -195,7 +195,7 @@ var Boid2DModel = function() {
 		if( multiplier != 1.0 ) {
 			this.steering.scaleBy( multiplier );
 		}
-
+		
 		this.acceleration.incrementBy( this.steering );
 	}
 
@@ -230,6 +230,7 @@ var Boid2DModel = function() {
 		
 		this.wanderTheta += -this.wanderStep + Math.random() * this.wanderStep * 2;
 		this.wanderPhi += -this.wanderStep + Math.random() * this.wanderStep * 2;
+		this.wanderPsi += -this.wanderStep + Math.random() * this.wanderStep * 2;
 		
 		if( Math.random() < 0.5 ) {
 			this.wanderTheta = -this.wanderTheta;
