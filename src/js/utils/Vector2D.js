@@ -137,7 +137,7 @@ var Vector2D = function( nx, ny ) {
 	 * Scales the current Vector2D object by a scalar, a magnitude.
 	 * @param	s
 	 */
-	this.scale = function( s ) {
+	this.scaleBy = function( s ) {
 		this.x *= s;
 		this.y *= s;
 	}
@@ -268,7 +268,7 @@ var Vector2D = function( nx, ny ) {
 	}
 	
 	/**
-	 * Gets / sets the angle of this vector. Changing the angle changes the x and y but retains the same length.
+	 * Sets the angle of this vector. Changing the angle changes the x and y but retains the same length.
 	 */
 	this.setAngle = function( value ) {
 		var len = this.getLength();
@@ -276,6 +276,9 @@ var Vector2D = function( nx, ny ) {
 		this.y = Math.sin( value ) * len;
 	}
 	
+	/**
+	 * Gets the angle of this vector.
+	 */
 	this.getAngle = function() {
 		return Math.atan2( this.y, this.x );
 	}

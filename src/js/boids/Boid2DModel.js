@@ -17,29 +17,22 @@ var Boid2DModel = function() {
 	this.wanderStep = 0;
 	
 	this.reset = function() {
-		
 		this.position = new Vector2D();
 		this.velocity = new Vector2D();
 		this.steering = new Vector2D();
 		this.acceleration = new Vector2D();
-		
 	}
 	
 	this.update = function( ms ) {
 		
-		this.velocity = this.velocity.add( this.acceleration );
-
-		/*
-		if( this.velocity.getLengthSQ > this.maxSpeed * this.maxSpeed ) {
-			this.velocity.normalize();
-			this.velocity = this.velocity.multiply( this.maxSpeed );
-		}
-		*/
+		this.velocity.incrementBy( this.acceleration );
 		
-		this.velocity.truncate( this.maxSpeed );
-
-		this.acceleration.x = 0;
-		this.acceleration.y = 0;
+		if( this.velocity.getLengthSquared() > this.maxSpeed * this.maxSpeed ) {
+			this.velocity.normalize();
+			this.velocity.scaleBy( this.maxSpeed );
+		}
+		
+		this.acceleration.zero();
 		
 		this.position.x += this.velocity.x / 1000 * ms;
 		this.position.y += this.velocity.y / 1000 * ms;
@@ -59,10 +52,10 @@ var Boid2DModel = function() {
 		this.steering = this.getSeparation( boids, separationDistance );
 		
 		if( multiplier != 1.0 ) {
-			this.steering = this.steering.multiply( multiplier );
+			this.steering.scaleBy( multiplier );
 		}
 		
-		this.acceleration = this.acceleration.add( this.steering );
+		this.acceleration.incrementBy( this.steering );
 		
 	}
 	
@@ -86,7 +79,7 @@ var Boid2DModel = function() {
 				
 				difference = this.position.subtract( boid.position );
 				difference.normalize();
-				difference = difference.multiply( 1 / distance );
+				difference.scaleBy( 1 / distance );
 				
 				force.incrementBy( difference );
 				count++;
@@ -96,7 +89,7 @@ var Boid2DModel = function() {
 		}
 		
 		if( count > 0 ) {
-			force = force.multiply( 1 / count );
+			force.scaleBy( 1 / count );
 		}
 		
 		return force;
@@ -108,7 +101,7 @@ var Boid2DModel = function() {
 		this.steering = this.getAlignment( boids, neighborDistance );
 		
 		if( multiplier != 1.0 ) {
-			this.steering = this.steering.multiply( multiplier );
+			this.steering.scaleBy( multiplier );
 		}
 		
 		this.acceleration.incrementBy( this.steering );
@@ -137,11 +130,11 @@ var Boid2DModel = function() {
 		
 		if( count > 0 ) {
 			
-			force = force.multiply( 1 / count );
+			force.scaleBy( 1 / count );
 			
 			if( force.lengthSQ > this.maxForce * this.maxForce ) {
 				force.normalize();
-				force = force.multiply( this.maxForce );
+				force.scaleBy( this.maxForce );
 			}
 			
 		}
@@ -154,7 +147,7 @@ var Boid2DModel = function() {
 		this.steering = this.getCohesion( boids, neighborDistance );
 		
 		if( multiplier != 1.0 ) {
-			this.steering = this.steering.multiply( multiplier );
+			this.steering.scaleBy( multiplier );
 		}
 		
 		this.acceleration.incrementBy( this.steering );
@@ -184,7 +177,7 @@ var Boid2DModel = function() {
 		
 		if( count > 0 ) {
 			
-			force = force.multiply( 1 / count );
+			force.scaleBy( 1 / count );
 			force = steer( force, false, 0 );
 			
 			return force;
@@ -200,32 +193,32 @@ var Boid2DModel = function() {
 		this.steering = this.steer( target, false, 0 );
 		
 		if( multiplier != 1.0 ) {
-			this.steering = this.steering.multiply( multiplier );
+			this.steering.scaleBy( multiplier );
 		}
 
-		this.acceleration = this.acceleration.add( this.steering );
+		this.acceleration.incrementBy( this.steering );
 	}
 
 	this.steer = function( target, ease, easeDistance ) {
 		
 		this.steering = target.clone();
-		this.steering = this.steering.subtract( this.position );
+		this.steering.decrementBy( this.position );
 		
 		var distance = this.steering.getLength();
 		
 		if( distance > 0.00001 ) {
 			
 			if( distance < easeDistance && ease ) {
-				this.steering = this.steering.multiply( this.maxSpeed * ( distance / easeDistance ) );
+				this.steering.scaleBy( this.maxSpeed * ( distance / easeDistance ) );
 			} else {
-				this.steering = this.steering.multiply( this.maxSpeed );
+				this.steering.scaleBy( this.maxSpeed );
 			}
 			
-			this.steering = this.steering.subtract( this.velocity );
+			this.steering.decrementBy( this.velocity );
 			
 			if( this.steering.lengthSQ > this.maxForce * this.maxForce ) {
 				this.steering.normalize();
-				this.steering = this.steering.multiply( this.maxForce );
+				this.steering.scaleBy( this.maxForce );
 			}
 		}
 		
@@ -245,8 +238,8 @@ var Boid2DModel = function() {
 		var pos = this.velocity.clone();
 		
 		pos.normalize();
-		pos = pos.multiply( this.wanderDistance );
-		pos = pos.add( this.position );
+		pos.scaleBy( this.wanderDistance );
+		pos.incrementBy( this.position );
 		
 		var offset = new Vector2D();
 		
@@ -256,10 +249,10 @@ var Boid2DModel = function() {
 		this.steering = this.steer( pos.add( offset ), false, 0 );
 		
 		if( multiplier != 1.0 ) {
-			this.steering = this.steering.multiply( multiplier );
+			this.steering.scaleBy( multiplier );
 		}
 		
-		this.acceleration = this.acceleration.add( this.steering );
+		this.acceleration.incrementBy( this.steering );
 		
 	}
 	
