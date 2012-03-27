@@ -14,12 +14,6 @@ var Vector2D = function( nx, ny ) {
 		this.y = 0;
 	}
 	
-	// Methods
-	
-	this.test = function() {
-		return this.x + ", " + this.y;
-	}
-	
 	/**
 	 * Generates a copy of this vector.
 	 * @return Vector2D A copy of this vector.
