@@ -14,8 +14,6 @@ var Vector2D = function( nx, ny ) {
 		this.y = 0;
 	}
 	
-<<<<<<< HEAD
-=======
 	// Methods
 	
 	/**
@@ -27,7 +25,6 @@ var Vector2D = function( nx, ny ) {
 		return new Vector2D( this.x + v.x, this.y + v.y );
 	}
 	
->>>>>>> af
 	/**
 	 * Generates a copy of this vector.
 	 * @return Vector2D A copy of this vector.
