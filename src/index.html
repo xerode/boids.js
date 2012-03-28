@@ -16,9 +16,10 @@
 		<script>
 			
 			var c2d; 
+			
 			var canvas;
 			var boidSystem;
-			var numBoids = 50;
+			var numBoids = 100;
 			var animating = false;
 
 			var boidSize = 2;
@@ -40,7 +41,7 @@
 			function initCanvas( c ) {
 
 				canvas = c;
-				
+
 				try {
 
 		            c2d = canvas.getContext( "2d" );
@@ -148,7 +149,7 @@
 				bs.setBounds( rect );
 				
 				var bf = new Boid2DFactory();
-				bs.setBoids( bf.spawnBoids( 100, 5, rect, minSpeed, maxSpeed, maxForce, wanderDistance, wanderRadius, wanderStep ) );
+				bs.setBoids( bf.spawnBoids( numBoids, 5, rect, minSpeed, maxSpeed, maxForce, wanderDistance, wanderRadius, wanderStep ) );
 				
 				var i = bs.boids.length;
 
