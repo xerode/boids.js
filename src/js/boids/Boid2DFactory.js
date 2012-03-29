@@ -21,6 +21,10 @@ var Boid2DFactory = function() {
 			boid.maxSpeed = maxSpeed;
 			
 			boid.maxForce = maxForce;
+
+			boid.wanderDistance = wanderDistance;
+			boid.wanderRadius = wanderRadius;
+			boid.wanderStep = wanderStep;
 			
 			boids[ n ] = boid;
 			
