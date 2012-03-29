@@ -12,7 +12,6 @@ var Boid2DModel = function() {
 	this.maxForce = 0;
 	this.wanderTheta = 0;
 	this.wanderPhi = 0;
-	this.wanderPsi = 0;
 	this.wanderRadius = 30;
 	this.wanderDistance = 60;
 	this.wanderStep = 0.25;
@@ -230,7 +229,6 @@ var Boid2DModel = function() {
 		
 		this.wanderTheta += -this.wanderStep + Math.random() * this.wanderStep * 2;
 		this.wanderPhi += -this.wanderStep + Math.random() * this.wanderStep * 2;
-		this.wanderPsi += -this.wanderStep + Math.random() * this.wanderStep * 2;
 		
 		if( Math.random() < 0.5 ) {
 			this.wanderTheta = -this.wanderTheta;

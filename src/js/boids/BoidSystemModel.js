@@ -1,17 +1,29 @@
-var BoidSystemModel = function() {
+var BoidSystemModel = Class.extend( {
 	
-	this.boids = [];
-	this.bounds = new Rectangle();
+	/*
+		CONSTRUCTOR
+	*/
 	
-	this.separationWeight = 20;
-	this.separationDistance = 25;
-	this.alignmentWeight = 0.2;
-	this.alignmentDistance = 5;
-	this.cohesionWeight = 0.2;
-	this.cohesionDistance = 10;
-	this.updateProps = null;
+	init: function() {
+		
+		this.boids = [];
+		this.bounds = new Rectangle();
+		
+		this.separationWeight = 20;
+		this.separationDistance = 25;
+		this.alignmentWeight = 0.2;
+		this.alignmentDistance = 5;
+		this.cohesionWeight = 0.2;
+		this.cohesionDistance = 10;
+		this.updateProps = null;
+		
+	},
 	
-	this.update = function( ms ) {
+	/*
+		METHODS
+	*/
+	
+	update: function( ms ) {
 		
 		var i = this.boids.length;
 
@@ -21,7 +33,7 @@ var BoidSystemModel = function() {
 
 			var b = this.getBoid( i );
 			
-			b.wander( 0.001 );
+			b.wander( 0.0005 );
 			b.flock( this.boids, this.separationWeight, this.alignmentWeight, this.cohesionWeight, this.separationDistance, this.alignmentDistance, this.cohesionDistance );
 			// b.seek( point, 0.0005 );
 			b.update( ms );
@@ -61,48 +73,52 @@ var BoidSystemModel = function() {
 
 		}
 
-	}
+	},
 	
-	this.setUpdate = function( u ) {
+	/*
+		ACCESSORS/MUTATORS
+	*/
+	
+	setUpdate: function( u ) {
 
 		this.updateProps = u;
 
-	}
+	},
 
-	this.addBoid = function( b ) {
+	addBoid: function( b ) {
 		
 		this.boids[ this.boids.length ] = b;
 		
-	}
+	},
 	
-	this.getBoid = function( i ) {
+	getBoid: function( i ) {
 		
 		return this.boids[ i ];
 		
-	}
+	},
 
-	this.setBoids = function( b ) {
+	setBoids: function( b ) {
 		
 		this.boids = b;
 		
-	}
+	},
 	
-	this.getBoids = function() {
+	getBoids: function() {
 		
 		return this.boids;
 		
-	}
+	},
 	
-	this.setBounds = function( r ) {
+	setBounds: function( r ) {
 		
 		this.bounds = r;
 		
-	}
+	},
 	
-	this.getBounds = function() {
+	getBounds: function() {
 		
 		return this.bounds;
 		
 	}
 	
-}
+} );
