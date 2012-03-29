@@ -59,10 +59,32 @@ var Rectangle = Class.extend( {
 		return( r.x > this.x && r.width < this.width && r.y > this.y && r.height < this.height );
 		
 	},
+
+	inflate: function( nx, ny ) {
+
+		this.x += nx;
+		this.y += ny;
+
+	},
 	
 	intersection: function( r ) {
+
+		var ins = new Rectangle();
 		
-		
+		if( this.intersects( r ) ) {
+
+			ins.x = Math.max( this.x, r.x );
+			ins.y = Math.max( this.y, r.y );
+
+			var nx = Math.min( this.x + this.width, r.x + r.width );
+			var ny = Math.min( this.y + this.height, r.y + r.height );
+
+			ins.width = nx;
+			ins.height = ny;
+
+		}
+
+		return ins;
 		
 	},
 	
