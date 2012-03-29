@@ -1,6 +1,10 @@
-var Boid2DFactory = function() {
+var Boid2DFactory = Class.extend( {
 	
-	this.spawnBoids = function( n, radius, bounds, minSpeed, maxSpeed, maxForce, wanderDistance, wanderRadius, wanderStep ) {
+	/*
+		METHODS
+	*/
+	
+	spawnBoids: function( n, radius, bounds, minSpeed, maxSpeed, maxForce, wanderDistance, wanderRadius, wanderStep ) {
 
 		var boids = [];
 
@@ -34,4 +38,4 @@ var Boid2DFactory = function() {
 
 	}
 	
-}
+} );
