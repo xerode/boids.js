@@ -1,3 +1,5 @@
 Porting [Soulwire's AS3 3D boids](http://blog.soulwire.co.uk/laboratory/flash/as3-flocking-steering-behaviors) to JavaScript in 2D.
 
 Currently implemented using <canvas>, will add support for 3D CSS transforms.
+
+[Demo page](http://xerode.net/experiments/canvas/particles/boids/)
